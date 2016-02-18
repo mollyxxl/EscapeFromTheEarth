@@ -16,9 +16,11 @@ public class PlayerMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		Vector3 targetPosition = envGenerator.forest1.GetTargetPoint();
-		Vector3 moveDir = targetPosition - transform.position;
-	    transform.position+=moveDir.normalized*moveSpeed*Time.deltaTime;
-		//transform.position = Vector3.Lerp (transform.position, targetPosition, Time.deltaTime);
+		if (GameController.gameState == GameState.Playing) {
+						Vector3 targetPosition = envGenerator.forest1.GetTargetPoint ();
+						Vector3 moveDir = targetPosition - transform.position;
+						transform.position += moveDir.normalized * moveSpeed * Time.deltaTime;
+						//transform.position = Vector3.Lerp (transform.position, targetPosition, Time.deltaTime);
+				}
 	}
 }
