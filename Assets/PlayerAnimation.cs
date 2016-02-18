@@ -4,25 +4,44 @@ using System.Collections;
 public enum AnimationState
 {
 	Idle,
-	Run
+	Run,
+	TurnLeft,
+	TurnRight,
+	Slide
 }
 public class PlayerAnimation : MonoBehaviour {
 
 	private Animation animation;
 	private AnimationState animationState=AnimationState.Idle;
+	private PlayerMove playerMove;
 	void Awake()
 	{ 
 		animation = transform.Find ("Prisoner").animation;
+		playerMove = this.GetComponent<PlayerMove> ();
 	}
 
 	// Update is called once per frame
 	void Update () {
 	
-		if (GameController.gameState == GameState.Menu) {
-					animationState = AnimationState.Idle;
-				} 
-		else if (GameController.gameState == GameState.Playing) {
+		if (GameController.gameState == GameState.Menu)
+		{
+			animationState = AnimationState.Idle;
+		} 
+		else if (GameController.gameState == GameState.Playing) 
+		{
 			animationState= AnimationState.Run;	
+			if(playerMove.targetLaneIndex>playerMove.nowLaneIndex)
+			{
+				animationState= AnimationState.TurnRight;
+			}
+			if(playerMove.targetLaneIndex<playerMove.nowLaneIndex)
+			{
+				animationState= AnimationState.TurnLeft;
+			}
+			if(playerMove.isSliding)
+			{
+				animationState= AnimationState.Slide;
+			}
 		}
 	}
 	void LateUpdate()
@@ -33,6 +52,17 @@ public class PlayerAnimation : MonoBehaviour {
 			break;
 		case AnimationState.Run:
 			PlayAnimation("run");
+			break;
+		case AnimationState.TurnLeft:
+			animation["left"].speed=2f;
+			PlayAnimation("left");
+			break;
+		case AnimationState.TurnRight:
+			animation["right"].speed=2f;
+			PlayAnimation("right");
+			break;
+		case AnimationState.Slide:
+			PlayAnimation("slide");
 			break;
 		}
 	}

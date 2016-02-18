@@ -64,14 +64,16 @@ public class Forest : MonoBehaviour {
    public Vector3 GetTargetPoint()
 	{
 		while (true) {
-			if ((wayPoints.points[targetIndex].position - player.position).sqrMagnitude < 100) {
+			if ((wayPoints.points[targetIndex].position.z - player.position.z) < 100) {
 				targetIndex--;
 				if(targetIndex<0){
 					envGenerator.GenrateForeat();
 					Destroy(this.gameObject);
 					return envGenerator.forest1.GetTargetPoint();
 				}
-			} else {
+			}
+			else
+			{
 				return wayPoints.points[targetIndex].position;
 			}	
 		}
