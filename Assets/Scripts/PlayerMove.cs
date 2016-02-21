@@ -31,6 +31,8 @@ public class PlayerMove : MonoBehaviour {
 	private bool isUp=true;
 	private float haveJumpHeight=0;
 
+	public AudioSource jumpLandMusic;
+
 	void Awake()
 	{
 		envGenerator = Camera.main.GetComponent<EnvGenrator> ();
@@ -97,6 +99,7 @@ public class PlayerMove : MonoBehaviour {
 					prisoner.position=new Vector3(prisoner.position.x,prisoner.position.y-(haveJumpHeight),prisoner.position.z);
 					isJumping=false;
 					haveJumpHeight=0;
+					jumpLandMusic.Play();
 				}
 			}
 		}

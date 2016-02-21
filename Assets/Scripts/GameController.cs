@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
 
 	public static GameState gameState=GameState.Menu; 
 	public GameObject tapToStartUI;
+	public GameObject gameoverUI;
 	void Update()
 	{
 		if (gameState == GameState.Menu) {
@@ -20,5 +21,13 @@ public class GameController : MonoBehaviour {
 				gameState=GameState.Playing;
 			}
 		}
+		if (gameState == GameState.End) {
+			gameoverUI.SetActive(true);
+			if (Input.GetMouseButtonDown (0)) {
+				gameState= GameState.Menu;
+				Application.LoadLevel(0);		
+			}
+		}
+
 	}
 }
